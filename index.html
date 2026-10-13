@@ -48,11 +48,44 @@ img {
 </div>
 
 <script>
+
+<script>
 const input = document.getElementById("chart");
-input.addEventListener("change", function() {
+const preview = document.getElementById("preview");
+const result = document.getElementById("result");
+
+input.addEventListener("change", function () {
+  result.textContent = "";
   const file = input.files[0];
-  if (file) {
-    document.getElementById("preview").src =
-      URL.createObjectURL(file);
+
+  if (!file) {
+    preview.removeAttribute("src");
+    return;
   }
+
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    preview.src = event.target.result;
+    preview.style.display = "block";
+  };
+
+  reader.onerror = function () {
+    result.textContent = "Could not load the image.";
+  };
+
+  reader.readAsDataURL(file);
+});
+
+function analyze() {
+  if (!input.files.length) {
+    result.textContent = "Please upload a chart first.";
+    return;
+  }
+
+  result.textContent =
+    "Chart uploaded successfully! AI analysis is not connected yet.";
+}
+</script>
+  
 });
