@@ -158,6 +158,13 @@ if (leftY.length > 10 && rightY.length > 10) {
   }
 }
 
+let support = "Not detected";
+let resistance = "Not detected";
+
+if (leftY.length > 10 && rightY.length > 10) {
+  support = "Possible lower chart area";
+  resistance = "Possible upper chart area";
+}
     if (total < 20) {
       result.textContent =
         "No clear red or green chart features detected.";
@@ -169,7 +176,11 @@ if (leftY.length > 10 && rightY.length > 10) {
         red +
      ". Visual pattern: " +
 direction +
-". This is an experimental image estimate, not a trading signal."; 
+        
+" | Support: " + support +
+" | Resistance: " + resistance +
+". These are placeholder chart areas, not actual price levels. " +
+"This is an experimental image estimate, not a trading signal.";
     }
   };
 
