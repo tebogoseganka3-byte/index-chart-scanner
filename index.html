@@ -102,22 +102,61 @@ function analyze() {
 
     let green = 0;
     let red = 0;
+    
+let leftY = [];
+let rightY = [];
+const width = 200;
+const height = 150;
 
     for (let i = 0; i < pixels.length; i += 4) {
       const r = pixels[i];
       const g = pixels[i + 1];
       const b = pixels[i + 2];
+      
+const x = (i / 4) % width;
+const y = Math.floor((i / 4) / width);
 
-      if (g > r * 1.5 && g > b * 1.3 && g > 70) {
-        green++;
-      }
+  
+if (g > r * 1.5 && g > b * 1.3 && g > 70) {
+  green++;
 
-      if (r > g * 1.5 && r > b * 1.3 && r > 70) {
-        red++;
-      }
-    }
+  if (x < width / 3) {
+    leftY.push(y);
+  } else if (x > width * 2 / 3) {
+    rightY.push(y);
+  }
+}
+
+if (r > g * 1.5 && r > b * 1.3 && r > 70) {
+  red++;
+
+  if (x < width / 3) {
+    leftY.push(y);
+  } else if (x > width * 2 / 3) {
+    rightY.push(y);
+  }
+}
+}  
 
     const total = green + red;
+    
+let direction = "Not enough chart data";
+
+if (leftY.length > 10 && rightY.length > 10) {
+  const average = values =>
+    values.reduce((sum, value) => sum + value, 0) /
+    values.length;
+
+  const difference = average(leftY) - average(rightY);
+
+  if (difference > 10) {
+    direction = "Visual pattern slopes upward";
+  } else if (difference < -10) {
+    direction = "Visual pattern slopes downward";
+  } else {
+    direction = "Visual pattern appears mostly sideways";
+  }
+}
 
     if (total < 20) {
       result.textContent =
@@ -128,7 +167,9 @@ function analyze() {
         green +
         " | Red pixels: " +
         red +
-        ". These are color measurements, not trading signals.";
+     ". Visual pattern: " +
+direction +
+". This is an experimental image estimate, not a trading signal."; 
     }
   };
 
