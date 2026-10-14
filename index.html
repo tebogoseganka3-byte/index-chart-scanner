@@ -148,7 +148,7 @@ if (r > g * 1.5 && r > b * 1.3 && r > 70) {
 
     const total = green + red;
     
-let direction = "Not enough chart data";
+let direction = "Pattern unclear";
 
 if (leftY.length > 10 && rightY.length > 10) {
   const average = values =>
@@ -158,11 +158,11 @@ if (leftY.length > 10 && rightY.length > 10) {
   const difference = average(leftY) - average(rightY);
 
   if (difference > 10) {
-    direction = "Visual pattern slopes upward";
+    direction = "UPWARD PATTERN (experimental)";
   } else if (difference < -10) {
-    direction = "Visual pattern slopes downward";
+    direction = "DOWNWARD PATTERN (experimental)";
   } else {
-    direction = "Visual pattern appears mostly sideways";
+    direction = "SIDEWAYS PATTERN (experimental)";
   }
 }
 
